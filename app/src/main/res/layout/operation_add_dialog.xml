@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/operation_add_type_spinner_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type" />
+
+    <Spinner
+        android:id="@+id/operation_add_type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:prompt="@string/operation_add_set_type"
+        android:layout_below="@+id/operation_add_type_spinner_title"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/operation_add_category_spinner_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/operation_add_type_spinner"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/operation_add_category_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:prompt="@string/operation_add_set_category"
+        android:layout_below="@+id/operation_add_category_spinner_title"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/operation_add_account_spinner_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Account"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/operation_add_category_spinner"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/operation_add_account_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:prompt="@string/operation_add_set_account"
+        android:layout_below="@+id/operation_add_account_spinner_title"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/operation_add_value_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Value"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/operation_add_account_spinner"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:id="@+id/operation_add_value_layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/operation_add_value_title">
+
+        <Spinner
+            android:id="@+id/operation_add_currency_spinner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:id="@+id/operation_add_value"
+            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/operation_add_currency_spinner" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/operation_add_description_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/operation_add_set_description"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/operation_add_value_layout_name"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:id="@+id/operation_add_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="@string/operation_description_hint"
+        android:layout_below="@+id/operation_add_description_title"
+        android:layout_marginTop="10dp"
+        android:maxLength="20"
+        android:maxLines="1"  />
+
+</RelativeLayout>

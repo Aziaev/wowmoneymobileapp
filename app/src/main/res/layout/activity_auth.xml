@@ -4,7 +4,7 @@
     android:id="@+id/activity_auth"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rabigol.mysocial.activities.AuthActivity">
+    tools:context="com.rabigol.wowmoney.activities.AuthActivity">
 
     <FrameLayout
         android:id="@+id/fragmentContainer"

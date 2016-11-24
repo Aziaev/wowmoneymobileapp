@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="81dp">
+
+
+        <ImageView
+            android:id="@+id/operationPicTextView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="15dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:layout_gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true" />
+
+        <TextView
+            android:id="@+id/valueTextView"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/currencyTextView"
+            android:layout_width="80dp"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/operationPicTextView"
+            android:layout_width="179dp"
+            android:textStyle="normal|italic"
+            android:textAlignment="textStart"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/operationCategoryTextView"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/valueTextView"
+            android:layout_toEndOf="@+id/operationPicTextView"
+            android:layout_width="179dp" />
+
+        <TextView
+            android:id="@+id/timestampTextView"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/operationPicTextView"
+            android:layout_width="179dp" />
+
+        <TextView
+            android:id="@+id/operationTypeTextView"
+            android:layout_height="wrap_content"
+            android:layout_width="179dp"
+            android:layout_above="@+id/valueTextView"
+            android:layout_toEndOf="@+id/operationPicTextView" />
+
+        <TextView
+            android:id="@+id/accountTextView"
+            android:layout_height="wrap_content"
+            android:layout_width="179dp"
+            android:layout_alignBaseline="@+id/valueTextView"
+            android:layout_alignBottom="@+id/valueTextView"
+            android:layout_toEndOf="@+id/operationPicTextView" />
+
+        <TextView
+            android:id="@+id/currencyTextView"
+            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:textSize="10sp"
+            android:textAlignment="textEnd"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

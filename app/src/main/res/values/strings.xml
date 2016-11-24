@@ -1,11 +1,109 @@
 <resources>
-    <string name="app_name">MySocial</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">wowoney</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_button">Войти</string>
     <string name="loading_progress">Пожалуйста, подождите</string>
     <string name="error_occured">Произошла ошибка</string>
     <string name="error_try_again">Попробуйте повторить ваш запрос</string>
     <string name="ok">Ок</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_preferences">preferences</string>
+    <string name="app_state">state</string>
+    <string name="restore_success_title">Успешно</string>
+    <string name="restore_message_sent_email">Пароль выслан на ваш e-mail указнный при регистрации</string>
+    <string name="loading">Загружается</string>
+    <string name="restore_fail_message">Произошла ошибка</string>
+    <string name="restore_try_again_message">Попробуйте повторить запрос позже</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="fab_add_new_operation">New operation</string>
+    <string name="operation_add_dialog_message">dialog_about_message</string>
+    <string name="toas_canceled">No operation added</string>
+    <string name="cancel">Cancel</string>
+    <string name="alert_view_and_edit">View and edit</string>
+    <string name="alert_delete_item_ask">Delete item?</string>
+    <string name="confirm_deleting_item">Confirm</string>
+    <string name="operation_add_set_type">Set type</string>
+    <string name="operation_add_set_category">Set category</string>
+    <string name="operation_add_set_account">Set account</string>
+    <string name="operation_add_set_description">Set description</string>
+
+
+    <string name="alert_dialog_delete_ask">You want to delete this operation?</string>
+    <string name="toast_item_deleted">Item deleted</string>
+    <string name="operation_description_hint">Add description</string>
 </resources>
