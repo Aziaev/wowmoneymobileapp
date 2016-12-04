@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import com.rabigol.wowmoney.R;
 
-
 // Step 2. Create fragment
 public class LoginFragment extends Fragment {
     private OnFragmentInteractionListener mListener;

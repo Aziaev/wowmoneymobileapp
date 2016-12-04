@@ -20,8 +20,6 @@ import com.rabigol.wowmoney.fragments.RestoreFragment;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-// Step 1. Create activity
-
 public class AuthActivity extends EventBusActivity implements
         LoginFragment.OnFragmentInteractionListener,
         RestoreFragment.OnFragmentInteractionListener {

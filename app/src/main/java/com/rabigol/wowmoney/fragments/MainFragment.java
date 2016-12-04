@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import com.rabigol.wowmoney.R;
+import com.rabigol.wowmoney.activities.MainActivity;
 import com.rabigol.wowmoney.adapters.OperationItemsAdapter;
 import com.rabigol.wowmoney.base.EventBusFragment;
 import com.rabigol.wowmoney.events.APIOperationsLoadFailEvent;
@@ -29,6 +32,7 @@ import com.rabigol.wowmoney.events.APIOperationsLoadSuccessEvent;
 import com.rabigol.wowmoney.models.OperationItem;
 import com.rabigol.wowmoney.utils.FakeOperations;
 
+import static com.rabigol.wowmoney.api.RESTApi.loadFeed;
 import static com.rabigol.wowmoney.utils.FakeOperations.deleteOperationById;
 import static com.rabigol.wowmoney.utils.FakeOperations.getOperationAccounts;
 import static com.rabigol.wowmoney.utils.FakeOperations.getOperationCategories;
@@ -135,12 +139,7 @@ public class MainFragment extends EventBusFragment implements
                 value.setText(String.format("%.2f", valueToFormat));
 
                 // Currencies Spinner
-                final Spinner operationCurrencySpinner = (Spinner) viewAndEditView.findViewById(R.id.operation_edit_currency_spinner);
-                ArrayAdapter operationCurrencySpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, getOperationCurrencies());
-                operationCurrencySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                operationCurrencySpinner.setAdapter(operationCurrencySpinnerAdapter);
-                // Spinner setDefaultValue
-                operationCurrencySpinner.setSelection(getOperationCurrencies().indexOf(operationItemEditAndView.getCurrency()));
+                final Spinner operationCurrencySpinner = getSpinner(operationItemEditAndView, viewAndEditView);
 
                 final EditText description = (EditText) viewAndEditView.findViewById(R.id.operation_get_description);
                 description.setText(operationItemEditAndView.getDescription());
@@ -185,6 +184,17 @@ public class MainFragment extends EventBusFragment implements
         loadData();
         setHasOptionsMenu(true);
         return rootView;
+    }
+
+    @NonNull
+    private Spinner getSpinner(OperationItem operationItemEditAndView, View viewAndEditView) {
+        final Spinner operationCurrencySpinner = (Spinner) viewAndEditView.findViewById(R.id.operation_edit_currency_spinner);
+        ArrayAdapter operationCurrencySpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, getOperationCurrencies());
+        operationCurrencySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        operationCurrencySpinner.setAdapter(operationCurrencySpinnerAdapter);
+        // Spinner setDefaultValue
+        operationCurrencySpinner.setSelection(getOperationCurrencies().indexOf(operationItemEditAndView.getCurrency()));
+        return operationCurrencySpinner;
     }
 
     @Override

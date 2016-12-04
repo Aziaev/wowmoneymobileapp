@@ -2,6 +2,7 @@ package com.rabigol.wowmoney.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.rabigol.wowmoney.App;
 import com.rabigol.wowmoney.R;
 import com.rabigol.wowmoney.fragments.MainFragment;
 import com.rabigol.wowmoney.models.OperationItem;
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements
                 operationAccountsSpinner.setAdapter(operationAccountsSpinnerAdapter);
 
                 final EditText value = (EditText) fabDialogView.findViewById(R.id.operation_add_value);
-//
 
                 final Spinner operationCurrencySpinner = (Spinner) fabDialogView.findViewById(R.id.operation_add_currency_spinner);
                 ArrayAdapter operationCurrencySpinnerAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, getOperationCurrencies());
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements
                         FakeOperations.addOperation(operationItem);
 //                        com.rabigol.wowmoney.adapters.OperationItemsAdapter.addItem(operationItem);
                         //TODO: There is bug here. Sometimes app crushes with notifyexception
-                        //TODO: fail after decimal numer entrance
                         loadFeed();
                     }
                 });
@@ -204,5 +204,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onOperationLoadRequested() {
         loadFeed();
+    }
+
+    //TODO: Used?
+    @Override
+    protected void onDestroy() {
+        App.getInstance().setAppState(App.APP_STATE_NOTLOGGED);
+        Log.i("TAG", "appstate is " + App.APP_STATE_NOTLOGGED);
+        super.onDestroy();
     }
 }
