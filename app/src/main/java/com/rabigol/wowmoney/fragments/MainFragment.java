@@ -61,8 +61,11 @@ public class MainFragment extends EventBusFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
+
+        View listHeaderView = inflater.inflate(R.layout.operations_listview_header, null, false);
+        listView.addHeaderView(listHeaderView);
+
         listView.setAdapter(adapter);
 
         //Long click for delete operation
