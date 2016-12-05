@@ -7,20 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.rabigol.wowmoney.activities.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -30,6 +16,24 @@
         app:srcCompat="@drawable/ic_add_white_36dp"
         app:backgroundTint="@color/redMaterial" />
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_main"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@color/colorPrimaryDark">
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="386dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_toolbar_translucent"
+        />
 
 </android.support.design.widget.CoordinatorLayout>

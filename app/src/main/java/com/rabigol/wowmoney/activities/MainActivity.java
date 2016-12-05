@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //FAB button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -208,9 +209,9 @@ public class MainActivity extends AppCompatActivity implements
 
     //TODO: Used?
     @Override
-    protected void onDestroy() {
+    protected void onStop() {
+        super.onStop();
         App.getInstance().setAppState(App.APP_STATE_NOTLOGGED);
         Log.i("TAG", "appstate is " + App.APP_STATE_NOTLOGGED);
-        super.onDestroy();
     }
 }

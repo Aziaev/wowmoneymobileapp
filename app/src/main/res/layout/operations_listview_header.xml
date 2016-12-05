@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:text="Button"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button" />
-</LinearLayout>
+        android:layout_height="192dp"
+        android:text="100 000 RUB"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:textColor="@android:color/white"
+        android:textAllCaps="false"
+        android:gravity="center_vertical"
+        android:elevation="5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="194dp"
+        app:srcCompat="@drawable/listview_header"
+        android:id="@+id/listView_header"
+        android:scaleType="centerCrop" />
+</FrameLayout>
