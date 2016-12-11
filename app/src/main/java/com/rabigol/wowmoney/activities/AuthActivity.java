@@ -15,6 +15,7 @@ import com.rabigol.wowmoney.events.APILoginSuccessEvent;
 import com.rabigol.wowmoney.events.APIRestoreFailEvent;
 import com.rabigol.wowmoney.events.APIRestoreSuccessEvent;
 import com.rabigol.wowmoney.fragments.LoginFragment;
+import com.rabigol.wowmoney.fragments.RegisterFragment;
 import com.rabigol.wowmoney.fragments.RestoreFragment;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -22,7 +23,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class AuthActivity extends EventBusActivity implements
         LoginFragment.OnFragmentInteractionListener,
-        RestoreFragment.OnFragmentInteractionListener {
+        RestoreFragment.OnFragmentInteractionListener,
+        RegisterFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

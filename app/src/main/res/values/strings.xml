@@ -123,4 +123,12 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="register_name">Your name</string>
+    <string name="register_password">Your password</string>
+    <string name="register_password2">Repeat password</string>
+    <string name="register_button">Register</string>
+    <string name="restore_button">Restore password</string>
+    <string name="login_password">Password</string>
+    <string name="login_username">Username</string>
+    <string name="login_add_account">Create new account</string>
 </resources>

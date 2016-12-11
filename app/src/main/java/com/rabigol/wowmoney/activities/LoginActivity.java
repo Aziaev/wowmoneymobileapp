@@ -10,19 +10,19 @@ import com.rabigol.wowmoney.R;
 
 public class LoginActivity extends AppCompatActivity{
 
-    Button buttonLogin;
-    EditText username, password;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        username = (EditText) findViewById(R.id.login_username);
-        password = (EditText) findViewById(R.id.login_password);
-        buttonLogin = (Button) findViewById(R.id.login_button);
-
-        buttonLogin.setOnClickListener(null);
-
-    }
+//    Button buttonLogin;
+//    EditText username, password;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_login);
+//
+//        username = (EditText) findViewById(R.id.login_username);
+//        password = (EditText) findViewById(R.id.login_password);
+//        buttonLogin = (Button) findViewById(R.id.login_button);
+//
+//        buttonLogin.setOnClickListener(null);
+//
+//    }
 }

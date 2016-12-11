@@ -1,21 +1,27 @@
 package com.rabigol.wowmoney.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.rabigol.wowmoney.R;
+import com.rabigol.wowmoney.activities.MainActivity;
+import com.rabigol.wowmoney.activities.RegisterActivity;
 
-// Step 2. Create fragment
+import static android.R.attr.button;
+
 public class LoginFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public LoginFragment() {
-        // Required empty public constructor
     }
 
     public static LoginFragment newInstance() {
@@ -32,12 +38,12 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    // Step 4. Create Layout and button + onclickListener
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
+        EditText username = (EditText) rootView.findViewById(R.id.login_username);
+        EditText password = (EditText) rootView.findViewById(R.id.login_password);
         Button button = (Button) rootView.findViewById(R.id.login_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +56,15 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        TextView addAccountTextView = (TextView) rootView.findViewById(R.id.login_add_account);
+        addAccountTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                startActivity(new Intent(getContext(), RegisterActivity.class));
+                View rootView = inflater.inflate(R.layout.fragment_register, container, false);
+                return true;
+            }
+        });
         return rootView;
     }
 
