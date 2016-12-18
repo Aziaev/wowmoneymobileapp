@@ -1,8 +1,13 @@
 package com.rabigol.wowmoney.events;
 
-/**
- * Created by Artur.Ziaev on 23.10.2016.
- */
+import com.android.volley.VolleyError;
+import com.rabigol.wowmoney.base.FailEvent;
 
-public class APILoginFailEvent {
+public class APILoginFailEvent extends FailEvent{
+    public APILoginFailEvent() {
+    }
+
+    public APILoginFailEvent(VolleyError error) {
+        super(error);
+    }
 }

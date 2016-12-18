@@ -7,6 +7,15 @@
     android:fitsSystemWindows="true"
     tools:context="com.rabigol.wowmoney.activities.MainActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        app:elevation="0dp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@color/colorPrimaryDark">
+
+    </android.support.design.widget.AppBarLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -19,15 +28,6 @@
     <include layout="@layout/content_main"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="@color/colorPrimaryDark">
-
-    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

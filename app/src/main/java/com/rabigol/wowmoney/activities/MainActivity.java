@@ -1,7 +1,9 @@
 package com.rabigol.wowmoney.activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.rabigol.wowmoney.App;
 import com.rabigol.wowmoney.R;
@@ -38,8 +41,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private static String CURRENT_FRAGMENT = "currentFragment";
     private static int FRAGMENT_MAIN = 10;
-
-    // TODO: check app state (стереть данные приложения)
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,18 +171,106 @@ public class MainActivity extends AppCompatActivity implements
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.menu_accounts) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(R.string.menu_dialog_title_accounts);
+            final View menuDialogView = getLayoutInflater().inflate(R.layout.menu_dialog_accounts, null);
 
-        } else if (id == R.id.nav_slideshow) {
+            final TextView textView1 = (TextView) menuDialogView.findViewById(R.id.menu_accounts_dialog_textview1);
+            textView1.setText(getOperationAccounts().get(0));
 
-        } else if (id == R.id.nav_manage) {
+            final TextView textView2 = (TextView) menuDialogView.findViewById(R.id.menu_accounts_dialog_textview2);
+            textView2.setText(getOperationAccounts().get(1));
 
-        } else if (id == R.id.nav_share) {
+            final TextView textView3 = (TextView) menuDialogView.findViewById(R.id.menu_accounts_dialog_textview3);
+            textView3.setText(getOperationAccounts().get(2));
 
-        } else if (id == R.id.nav_send) {
 
+            builder.setView(menuDialogView);
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } else if (id == R.id.menu_categories) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(R.string.menu_dialog_title_categories);
+            final View menuDialogView = getLayoutInflater().inflate(R.layout.menu_dialog_categories, null);
+
+            final TextView textView1 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview1);
+            textView1.setText(getOperationCategories().get(0));
+
+            final TextView textView2 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview2);
+            textView2.setText(getOperationCategories().get(1));
+
+            final TextView textView3 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview3);
+            textView3.setText(getOperationCategories().get(2));
+
+            final TextView textView4 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview4);
+            textView4.setText(getOperationCategories().get(3));
+
+            final TextView textView5 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview5);
+            textView5.setText(getOperationCategories().get(4));
+
+            final TextView textView6 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview6);
+            textView6.setText(getOperationCategories().get(5));
+
+            final TextView textView7 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview7);
+            textView7.setText(getOperationCategories().get(6));
+
+            final TextView textView8 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview8);
+            textView8.setText(getOperationCategories().get(7));
+
+            final TextView textView9 = (TextView) menuDialogView.findViewById(R.id.menu_categories_dialog_textview9);
+            textView9.setText(getOperationCategories().get(8));
+
+
+            builder.setView(menuDialogView);
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } else if (id == R.id.menu_currencies) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("All currencies");
+            final View menuDialogView = getLayoutInflater().inflate(R.layout.menu_dialog_currencies, null);
+
+            final TextView textView1 = (TextView) menuDialogView.findViewById(R.id.menu_currencies_dialog_textview1);
+            textView1.setText(getOperationCurrencies().get(0));
+
+            final TextView textView2 = (TextView) menuDialogView.findViewById(R.id.menu_currencies_dialog_textview2);
+            textView2.setText(getOperationCurrencies().get(1));
+
+            final TextView textView3 = (TextView) menuDialogView.findViewById(R.id.menu_currencies_dialog_textview3);
+            textView3.setText(getOperationCurrencies().get(2));
+
+
+            builder.setView(menuDialogView);
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } else if (id == R.id.menu_statistics) {
+
+        } else if (id == R.id.menu_settings) {
+
+        } else if (id == R.id.menu_logout) {
+            showProgressDialog();
+            App.getInstance().setAppState(App.APP_STATE_NOTLOGGED);
+            Log.i("TAG", "appstate is " + App.APP_STATE_NOTLOGGED);
+            startActivity(new Intent(this, StartActivity.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -188,6 +278,22 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
+    protected void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage(getString(R.string.loading));
+        }
+        if (!mProgressDialog.isShowing()){
+            mProgressDialog.show();
+        }
+    }
+
+    protected void dismissProgressDialog(){
+        if(mProgressDialog != null){
+            mProgressDialog.dismiss();
+        }
+    }
 
     // TODO: make all subscribe options work
     /*@Subscribe(threadMode = ThreadMode.MAIN)
@@ -211,7 +317,5 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        App.getInstance().setAppState(App.APP_STATE_NOTLOGGED);
-        Log.i("TAG", "appstate is " + App.APP_STATE_NOTLOGGED);
     }
 }

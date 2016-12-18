@@ -20,7 +20,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:padding="15dp"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/ic_appicon"
             android:layout_gravity="center"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"

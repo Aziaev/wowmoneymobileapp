@@ -35,7 +35,7 @@ public class AuthActivity extends EventBusActivity implements
             startActivity(new Intent(this, MainActivity.class));
             finish(); // TODO: think about this
             return;
-        }
+        } else
 
         getSupportFragmentManager()
                 .beginTransaction()

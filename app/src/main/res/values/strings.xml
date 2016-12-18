@@ -131,4 +131,14 @@
     <string name="login_password">Password</string>
     <string name="login_username">Username</string>
     <string name="login_add_account">Create new account</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_my_account">My account</string>
+    <string name="menu_statistics">Statistics</string>
+    <string name="menu_accounts">Accounts</string>
+    <string name="menu_categories">Categories</string>
+    <string name="menu_currencies">Currencies</string>
+    <string name="menu_dialog_title_accounts">Your accounts</string>
+    <string name="menu_dialog_title_categories">Categories</string>
+    <string name="api_error_unknown">Connection error. Try again later</string>
 </resources>

@@ -14,6 +14,8 @@ import com.rabigol.wowmoney.utils.Helper;
 
 import java.util.ArrayList;
 
+import static com.rabigol.wowmoney.utils.OperationImageHelper.giveImage;
+
 /**
  * Created by Artur.Ziaev on 01.11.2016.
  */
@@ -105,9 +107,7 @@ public class OperationItemsAdapter extends BaseAdapter {
         if (operation.getDescription() != null && !operation.getDescription().isEmpty()) {
             holder.descriptionTextView.setText("# " + operation.getDescription());
         }
-        if (operation.getOperationPic() != null && !operation.getOperationPic().isEmpty()) {
-            //TODO: make pic viewable
-        }
+        holder.operationPicTextView.setImageResource(giveImage(operation.getOperationCategory()));//TODO: make pic viewable
 
         holder.valueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
