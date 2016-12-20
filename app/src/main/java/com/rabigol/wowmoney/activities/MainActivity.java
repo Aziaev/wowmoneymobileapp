@@ -97,19 +97,18 @@ public class MainActivity extends AppCompatActivity implements
                     public void onClick(DialogInterface dialog, int which) {
 
                         Double aDouble = Double.parseDouble(value.getText().toString());
-                        aDouble = aDouble *100;
+                        aDouble = aDouble * 100;
                         final Long operationValue = aDouble.longValue();
+                        int timestamp = (int) (System.currentTimeMillis() / 1000);
 
-                        OperationItem operationItem = new OperationItem(
-                                operationTypesSpinner.getSelectedItem().toString()
+                        RESTApi.getInstance().newItem(operationTypesSpinner.getSelectedItem().toString()
                                 , operationCategoriesSpinner.getSelectedItem().toString()
                                 , operationAccountsSpinner.getSelectedItem().toString()
                                 , operationValue
                                 , operationCurrencySpinner.getSelectedItem().toString()
-                                , description.getText().toString());
-                        FakeOperations.addOperation(operationItem);
-//                        com.rabigol.wowmoney.adapters.OperationItemsAdapter.addItem(operationItem);
-                        //TODO: There is bug here. Sometimes app crushes with notifyexception
+                                , description.getText().toString()
+                                , timestamp);
+
                         loadFeed();
                     }
                 });
@@ -272,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (id == R.id.menu_settings) {
             RESTApi.getInstance().getBalance(App.getInstance().getAppLoggedUserId());
-            Toast.makeText(this, "Balance loaded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Balance loaded " + RESTApi.getInstance().getBalance(App.getInstance().getAppLoggedUserId()), Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.menu_logout) {
             showProgressDialog();
@@ -293,13 +292,13 @@ public class MainActivity extends AppCompatActivity implements
             mProgressDialog.setCancelable(false);
             mProgressDialog.setMessage(getString(R.string.loading));
         }
-        if (!mProgressDialog.isShowing()){
+        if (!mProgressDialog.isShowing()) {
             mProgressDialog.show();
         }
     }
 
-    protected void dismissProgressDialog(){
-        if(mProgressDialog != null){
+    protected void dismissProgressDialog() {
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
     }

@@ -24,9 +24,11 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import com.rabigol.wowmoney.App;
 import com.rabigol.wowmoney.R;
 import com.rabigol.wowmoney.activities.MainActivity;
 import com.rabigol.wowmoney.adapters.OperationItemsAdapter;
+import com.rabigol.wowmoney.api.RESTApi;
 import com.rabigol.wowmoney.base.EventBusFragment;
 import com.rabigol.wowmoney.events.APIFeedLoadFailEvent;
 import com.rabigol.wowmoney.events.APIFeedLoadSuccessEvent;
@@ -67,8 +69,8 @@ public class MainFragment extends EventBusFragment implements
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
 
         View listHeaderView = inflater.inflate(R.layout.operations_listview_header, null, false);
-        final TextView listHeaderViewBalanceText = (TextView) rootView.findViewById(R.id.listView_header_balance);
-//        listHeaderViewBalanceText.setText("99 999 rub");
+        TextView listHeaderViewBalanceText = (TextView) rootView.findViewById(R.id.listView_header_balance);
+        listHeaderViewBalanceText.setText("99");
 
         listView.addHeaderView(listHeaderView);
 
@@ -87,7 +89,8 @@ public class MainFragment extends EventBusFragment implements
                 builder.setPositiveButton(R.string.confirm_deleting_item, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteOperationById(idForDelete);
+//                        deleteOperationById(idForDelete);
+                        RESTApi.getInstance().deleteItems(idForDelete);
                         Toast.makeText(getContext(), R.string.toast_item_deleted, Toast.LENGTH_SHORT).show();
                         adapter.notifyDataSetChanged();
 
@@ -119,7 +122,7 @@ public class MainFragment extends EventBusFragment implements
 
                 // Types Spinner
                 final Spinner operationTypesSpinner = (Spinner) viewAndEditView.findViewById(R.id.operation_edit_type_spinner);
-                ArrayAdapter operationTypesSpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, getOperationTypes());
+                ArrayAdapter operationTypesSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getOperationTypes());
                 operationTypesSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 operationTypesSpinner.setAdapter(operationTypesSpinnerAdapter);
                 // Spinner setDefaultValue
@@ -127,7 +130,7 @@ public class MainFragment extends EventBusFragment implements
 
                 // Categories Spinner
                 final Spinner operationCategoriesSpinner = (Spinner) viewAndEditView.findViewById(R.id.operation_edit_category_spinner);
-                ArrayAdapter operationCategoriesSpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, getOperationCategories());
+                ArrayAdapter operationCategoriesSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getOperationCategories());
                 operationCategoriesSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 operationCategoriesSpinner.setAdapter(operationCategoriesSpinnerAdapter);
                 // Spinner setDefaultValue
@@ -135,7 +138,7 @@ public class MainFragment extends EventBusFragment implements
 
                 // Accounts Spinner
                 final Spinner operationAccountsSpinner = (Spinner) viewAndEditView.findViewById(R.id.operation_edit_account_spinner);
-                ArrayAdapter operationAccountsSpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, getOperationAccounts());
+                ArrayAdapter operationAccountsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getOperationAccounts());
                 operationCategoriesSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 operationAccountsSpinner.setAdapter(operationAccountsSpinnerAdapter);
                 // Spinner setDefaultValue
@@ -144,7 +147,7 @@ public class MainFragment extends EventBusFragment implements
                 final EditText value = (EditText) viewAndEditView.findViewById(R.id.operation_get_value);
                 Long operationValue = operationItemEditAndView.getValue();
                 Double valueDouble = operationValue.doubleValue();
-                Double valueToFormat = valueDouble/100;
+                Double valueToFormat = valueDouble / 100;
                 value.setText(String.format("%.2f", valueToFormat));
 
                 // Currencies Spinner
@@ -158,17 +161,29 @@ public class MainFragment extends EventBusFragment implements
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        operationItemEditAndView.setOperationType(operationTypesSpinner.getSelectedItem().toString());
-                        operationItemEditAndView.setOperationCategory(operationCategoriesSpinner.getSelectedItem().toString());
-                        operationItemEditAndView.setAccount(operationAccountsSpinner.getSelectedItem().toString());
-
                         //Conver inputed double to long
                         Double aDouble = Double.parseDouble(value.getText().toString());
-                        aDouble = aDouble *100;
+                        aDouble = aDouble * 100;
                         final Long operationValue = aDouble.longValue();
-                        operationItemEditAndView.setValue(operationValue);
-                        operationItemEditAndView.setCurrency(operationCurrencySpinner.getSelectedItem().toString());
-                        operationItemEditAndView.setDescription(description.getText().toString());
+//                        operationItemEditAndView.setOperationType(operationTypesSpinner.getSelectedItem().toString());
+//                        operationItemEditAndView.setOperationCategory(operationCategoriesSpinner.getSelectedItem().toString());
+//                        operationItemEditAndView.setAccount(operationAccountsSpinner.getSelectedItem().toString());
+//                        operationItemEditAndView.setValue(operationValue);
+//                        operationItemEditAndView.setCurrency(operationCurrencySpinner.getSelectedItem().toString());
+//                        operationItemEditAndView.setDescription(description.getText().toString());
+
+                        RESTApi.getInstance().updateItem(
+                                App.getInstance().getAppLoggedUserId(),
+                                operationItemEditAndView.getId(),
+                                operationTypesSpinner.getSelectedItem().toString(),
+                                operationCategoriesSpinner.getSelectedItem().toString(),
+                                operationAccountsSpinner.getSelectedItem().toString(),
+                                operationValue,
+                                operationCurrencySpinner.getSelectedItem().toString(),
+                                description.getText().toString(),
+                                operationItemEditAndView.getTimestamp()
+                        );
+//                        loadData();
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -198,7 +213,7 @@ public class MainFragment extends EventBusFragment implements
     @NonNull
     private Spinner getSpinner(OperationItem operationItemEditAndView, View viewAndEditView) {
         final Spinner operationCurrencySpinner = (Spinner) viewAndEditView.findViewById(R.id.operation_edit_currency_spinner);
-        ArrayAdapter operationCurrencySpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, getOperationCurrencies());
+        ArrayAdapter operationCurrencySpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getOperationCurrencies());
         operationCurrencySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         operationCurrencySpinner.setAdapter(operationCurrencySpinnerAdapter);
         // Spinner setDefaultValue
@@ -266,7 +281,7 @@ public class MainFragment extends EventBusFragment implements
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAPIFeedLoadFailEvent(APIFeedLoadFailEvent event){
+    public void onAPIFeedLoadFailEvent(APIFeedLoadFailEvent event) {
         swipeRefresh.setRefreshing(false);
     }
 }

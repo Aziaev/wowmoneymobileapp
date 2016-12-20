@@ -125,7 +125,7 @@ public class RESTApi {
         final JSONArray jsonArray = new JSONArray();
 
         mRequestQueue.add(new JsonArrayRequest(
-                Request.Method.GET,
+                Request.Method.POST, //Check! Was get!
                 url,
                 jsonArray,
                 new Response.Listener<JSONArray>() {
@@ -238,5 +238,108 @@ public class RESTApi {
 //                EventBus.getDefault().post(new APIFeedLoadSuccessEvent(FakeOperations.getInstance().getOperationItems()));
             }
         }, 1000);
+    }
+
+    public void deleteItems(long operationId) {
+        final String url = API_URL + "operations/delete/";
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("operationId", operationId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("deleteItems ", jsonObject.toString());
+        mRequestQueue.add(new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        RESTApi.getInstance().loadItems(App.getInstance().getAppLoggedUserId());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                EventBus.getDefault().post(new APIFeedLoadFailEvent(error));
+                Log.i("REST loadItems error", error.toString());
+            }
+        }
+        ));
+    }
+
+    public void updateItem(int ownerId, long operationId, String operationType, String operationCategory, String account, long value, String currency, String description, int timestamp) {
+        Log.i("updateItem ", "started");
+        final String url = API_URL + "operations/edit/";
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("ownerId", ownerId);
+            jsonObject.put("operationId", operationId);
+            jsonObject.put("operation_Type", operationType);
+            jsonObject.put("operation_Category", operationCategory);
+            jsonObject.put("account", account);
+            jsonObject.put("value", value);
+            jsonObject.put("currency", currency);
+            jsonObject.put("description", description);
+            jsonObject.put("timestamp", timestamp);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mRequestQueue.add(new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        RESTApi.getInstance().loadItems(App.getInstance().getAppLoggedUserId());
+//                        EventBus.getDefault().post(new APIFeedLoadSuccessEvent(FakeOperations.getInstance().getOperationItems())); // response from server
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                EventBus.getDefault().post(new APIFeedLoadFailEvent(error));
+                Log.i("REST edit item error", error.toString());
+            }
+        }
+        ));
+    }
+
+    public void newItem(String operationType, String operationCategory, String account, long value, String currency, String description, int timestamp) {
+        final String url = API_URL + "operations/new/";
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("ownerId", App.getInstance().getAppLoggedUserId());
+            jsonObject.put("operation_Type", operationType);
+            jsonObject.put("operation_Category", operationCategory);
+            jsonObject.put("account", account);
+            jsonObject.put("value", value);
+            jsonObject.put("currency", currency);
+            jsonObject.put("description", description);
+            jsonObject.put("timestamp", timestamp);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mRequestQueue.add(new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        RESTApi.getInstance().loadItems(App.getInstance().getAppLoggedUserId());
+//                        EventBus.getDefault().post(new APIFeedLoadSuccessEvent(FakeOperations.getInstance().getOperationItems())); // response from server
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                EventBus.getDefault().post(new APIFeedLoadFailEvent(error));
+                Log.i("REST edit item error", error.toString());
+            }
+        }
+        ));
     }
 }
