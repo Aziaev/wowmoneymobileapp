@@ -1,6 +1,8 @@
 package com.rabigol.wowmoney.api;
 
 import android.os.Handler;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -8,14 +10,19 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.rabigol.wowmoney.App;
+import com.rabigol.wowmoney.R;
+import com.rabigol.wowmoney.events.APIFeedLoadFailEvent;
+import com.rabigol.wowmoney.events.APIFeedLoadSuccessEvent;
 import com.rabigol.wowmoney.events.APILoginFailEvent;
 import com.rabigol.wowmoney.events.APILoginSuccessEvent;
 import com.rabigol.wowmoney.events.APIOperationsLoadSuccessEvent;
@@ -25,12 +32,10 @@ import com.rabigol.wowmoney.utils.FakeOperations;
 
 import org.greenrobot.eventbus.EventBus;
 
-/**
- * Created by Artur.Ziaev on 23.10.2016.
- */
-
 public class RESTApi {
-    private final static String API_URL = "http://10.16.16.89:9090/api/";
+    //    private final static String API_URL = "http://10.16.16.89:9090/api/"; //office ip
+    private final static String API_URL = "http://10.1.30.37:9090/api/"; //home ip
+    //    private final static String API_URL = "http://localhost:9090/api/";
     private static RESTApi mInstance;
     private RequestQueue mRequestQueue;
 
@@ -64,13 +69,14 @@ public class RESTApi {
                 public void onErrorResponse(VolleyError error) {
                     //TODO: Сделать обработку ошибок
                     EventBus.getDefault().post(new APILoginFailEvent(error));
-//                    if (error instanceof TimeoutError){
-//                        //TODO:
-//                    } else if (error instanceof ServerError) {
-//
-//                    } else {
-//                        //TODO:
-//                    }
+                    Log.i("REST LOGIN ERROR", error.toString());
+                    if (error instanceof TimeoutError) {
+                        //TODO: make timeouterror in failevent or anywhere else
+                    } else if (error instanceof ServerError) {
+                        //TODO: make servererror in failevent or anywhere else
+                    } else {
+                        //TODO: error toasts
+                    }
                 }
             }
             ));
@@ -81,7 +87,7 @@ public class RESTApi {
 
     }
 
-    public void register(String email, String password){
+    public void register(String email, String password) {
         try {
             String url = API_URL + "auth/register";
             final JSONObject jsonObject = new JSONObject();
@@ -94,20 +100,44 @@ public class RESTApi {
                     jsonObject,
                     new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(JSONObject response){
-                            EventBus.getDefault().post(new APIRegisterSuccessEvent(response));
+                        public void onResponse(JSONObject response) {
+                            EventBus.getDefault().post(new APIRegisterSuccessEvent(response)); // response from server
                         }
-                    }, new Response.ErrorListener(){
+                    }, new Response.ErrorListener() {
                 @Override
-                public void onErrorResponse(VolleyError error){
+                public void onErrorResponse(VolleyError error) {
                     EventBus.getDefault().post(new APIRegisterFailEvent(error));
+                    Log.i("REST REGISTER ERROR", error.toString());
                 }
             }
             ));
 
-        } catch (JSONException j){
+        } catch (JSONException j) {
             EventBus.getDefault().post(new APIRegisterFailEvent());
         }
+    }
+
+    public void loadItems(int userId) {
+        String url = API_URL + "operations/" + userId;
+        final JSONArray jsonArray = new JSONArray();
+
+        mRequestQueue.add(new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                jsonArray,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        EventBus.getDefault().post(new APIFeedLoadSuccessEvent(response)); // response from server
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                EventBus.getDefault().post(new APIFeedLoadFailEvent(error));
+                Log.i("REST loadItems error", error.toString());
+            }
+        }
+        ));
     }
 
 

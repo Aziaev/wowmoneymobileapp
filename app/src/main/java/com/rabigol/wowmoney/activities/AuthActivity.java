@@ -41,15 +41,13 @@ public class AuthActivity extends EventBusActivity implements
                 .beginTransaction()
                 .add(R.id.fragmentContainer, LoginFragment.newInstance())
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack("login")
                 .commit();
     }
 
     @Override
     public void onLoginAttemptPerformed(String login, String password) {
-        // TODO: make REST call
+        RESTApi.getInstance().login(login, password);
         showProgressDialog();
-        RESTApi.login(login, password);
     }
 
     @Override
@@ -57,6 +55,16 @@ public class AuthActivity extends EventBusActivity implements
         //TODO: make REST call
         showProgressDialog();
         RESTApi.restore(login);
+    }
+
+    @Override
+    public void onRegistrationPageRequested() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragmentContainer, new RegisterFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("register")
+                .commit();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

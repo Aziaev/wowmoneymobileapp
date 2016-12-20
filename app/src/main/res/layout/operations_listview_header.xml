@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/listView_header_balance"
         android:layout_width="match_parent"
         android:layout_height="192dp"
         android:text="100 000 RUB"

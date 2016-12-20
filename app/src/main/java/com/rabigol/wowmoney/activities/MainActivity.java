@@ -25,9 +25,15 @@ import android.widget.TextView;
 
 import com.rabigol.wowmoney.App;
 import com.rabigol.wowmoney.R;
+import com.rabigol.wowmoney.api.RESTApi;
+import com.rabigol.wowmoney.events.APIFeedLoadFailEvent;
+import com.rabigol.wowmoney.events.APIFeedLoadSuccessEvent;
 import com.rabigol.wowmoney.fragments.MainFragment;
 import com.rabigol.wowmoney.models.OperationItem;
 import com.rabigol.wowmoney.utils.FakeOperations;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static com.rabigol.wowmoney.api.RESTApi.loadFeed;
 import static com.rabigol.wowmoney.utils.FakeOperations.getOperationAccounts;
@@ -264,6 +270,8 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.menu_statistics) {
 
         } else if (id == R.id.menu_settings) {
+            RESTApi.getInstance().loadItems(App.getInstance().getAppLoggedUserId());
+            showProgressDialog();
 
         } else if (id == R.id.menu_logout) {
             showProgressDialog();
@@ -296,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     // TODO: make all subscribe options work
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAPIFeedLoadSuccessEvent(APIFeedLoadSuccessEvent event) {
         // TODO : Feed success subscribe
     }
@@ -304,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAPIFeedLoadFailEvent(APIFeedLoadFailEvent event) {
         // TODO : Feed fail subscribe
-    }*/
+    }
 
 
     // TODO: RESTApi.loadFeed(WHAT IS HERE SHOULD BE?

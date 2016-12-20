@@ -6,10 +6,6 @@ import android.text.format.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
-/**
- * Created by Artur.Ziaev on 25.10.2016.
- */
-
 public class Helper {
     public static String nameInitials(String name) {
         if (name != null) {
@@ -48,12 +44,11 @@ public class Helper {
         return date;
     }
 
-    public static String formatTimestampToDate(int seconds) {
-        Calendar server = Calendar.getInstance();
-        server.setTimeInMillis((long) seconds * 1000);
+    public static boolean isLoginValid(String login) {
+        return !login.isEmpty() && login.length() >= 4; // && login.length() <= 9;
+    }
 
-        String date = DateFormat.format("dd.MM.yyyy", server).toString();
-
-        return date;
+    public static boolean isPasswordValid(String password) {
+        return !password.isEmpty() && password.length() >= 1;
     }
 }

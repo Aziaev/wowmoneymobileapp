@@ -1,5 +1,7 @@
 package com.rabigol.wowmoney.base;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 public class SuccessEvent {

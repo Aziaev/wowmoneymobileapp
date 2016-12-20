@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -64,6 +65,9 @@ public class MainFragment extends EventBusFragment implements
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
 
         View listHeaderView = inflater.inflate(R.layout.operations_listview_header, null, false);
+        final TextView listHeaderViewBalanceText = (TextView) rootView.findViewById(R.id.listView_header_balance);
+//        listHeaderViewBalanceText.setText("99 999 rub");
+
         listView.addHeaderView(listHeaderView);
 
         listView.setAdapter(adapter);
@@ -242,10 +246,21 @@ public class MainFragment extends EventBusFragment implements
 
     @Override
     public void onValueClicked(long value) {
-        Log.i("TAG", "Value clicked: " + value);
+//        Log.i("TAG", "Value clicked: " + value);
     }
 
     public interface OnFragmentInteractionListener {
         void onOperationLoadRequested();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAPIFeedLoadSuccessEvent(APIOperationsLoadSuccessEvent event) {
+        adapter.setOperations(event.getOperations());
+        swipeRefresh.setRefreshing(false);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAPIFeedLoadFailEvent(APIOperationsLoadFailEvent event){
+        swipeRefresh.setRefreshing(false);
     }
 }

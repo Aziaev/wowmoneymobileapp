@@ -141,4 +141,11 @@
     <string name="menu_dialog_title_accounts">Your accounts</string>
     <string name="menu_dialog_title_categories">Categories</string>
     <string name="api_error_unknown">Connection error. Try again later</string>
+    <string name="login_toast_empty">Enter login</string>
+    <string name="login_toast_empty_password">Password cannot be empty</string>
+    <string name="login_toast_incorrect_login">Incorrect login</string>
+    <string name="login_toast_incorrect_password">Invalid password</string>
+    <string name="app_logged_userid">userId</string>
+    <string name="app_logged_user_email">userEmail</string>
+    <string name="error_rest_timeout">Timeout error</string>
 </resources>
