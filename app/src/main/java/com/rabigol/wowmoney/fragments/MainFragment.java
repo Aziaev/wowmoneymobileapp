@@ -28,6 +28,8 @@ import com.rabigol.wowmoney.R;
 import com.rabigol.wowmoney.activities.MainActivity;
 import com.rabigol.wowmoney.adapters.OperationItemsAdapter;
 import com.rabigol.wowmoney.base.EventBusFragment;
+import com.rabigol.wowmoney.events.APIFeedLoadFailEvent;
+import com.rabigol.wowmoney.events.APIFeedLoadSuccessEvent;
 import com.rabigol.wowmoney.events.APIOperationsLoadFailEvent;
 import com.rabigol.wowmoney.events.APIOperationsLoadSuccessEvent;
 import com.rabigol.wowmoney.models.OperationItem;
@@ -228,39 +230,43 @@ public class MainFragment extends EventBusFragment implements
 
     public void loadData() {
         if (mListener != null) {
-            mListener.onOperationLoadRequested();
+            mListener.onFeedLoadRequested();
             swipeRefresh.setRefreshing(true);
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAPIOperationsLoadSuccessEvent(APIOperationsLoadSuccessEvent event) {
-        adapter.setOperations(event.getOperations());
-        swipeRefresh.setRefreshing(false);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAPIOperationLoadFailEvent(APIOperationsLoadFailEvent event){
-        swipeRefresh.setRefreshing(false);
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onAPIOperationsLoadSuccessEvent(APIOperationsLoadSuccessEvent event) {
+//        adapter.setOperations(event.getOperations());
+//        swipeRefresh.setRefreshing(false);
+//    }
+//
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onAPIOperationLoadFailEvent(APIOperationsLoadFailEvent event){
+//        swipeRefresh.setRefreshing(false);
+//    }
 
     @Override
     public void onValueClicked(long value) {
 //        Log.i("TAG", "Value clicked: " + value);
     }
 
+//    public interface OnFragmentInteractionListener {
+//        void onOperationLoadRequested();
+//    }
+
     public interface OnFragmentInteractionListener {
-        void onOperationLoadRequested();
+        void onFeedLoadRequested();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAPIFeedLoadSuccessEvent(APIOperationsLoadSuccessEvent event) {
+    public void onAPIFeedLoadSuccessEvent(APIFeedLoadSuccessEvent event) {
         adapter.setOperations(event.getOperations());
         swipeRefresh.setRefreshing(false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAPIFeedLoadFailEvent(APIOperationsLoadFailEvent event){
+    public void onAPIFeedLoadFailEvent(APIFeedLoadFailEvent event){
         swipeRefresh.setRefreshing(false);
     }
 }

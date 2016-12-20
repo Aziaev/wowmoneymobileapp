@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rabigol.wowmoney.App;
 import com.rabigol.wowmoney.R;
@@ -270,8 +271,8 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.menu_statistics) {
 
         } else if (id == R.id.menu_settings) {
-            RESTApi.getInstance().loadItems(App.getInstance().getAppLoggedUserId());
-            showProgressDialog();
+            RESTApi.getInstance().getBalance(App.getInstance().getAppLoggedUserId());
+            Toast.makeText(this, "Balance loaded", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.menu_logout) {
             showProgressDialog();
@@ -305,25 +306,30 @@ public class MainActivity extends AppCompatActivity implements
 
     // TODO: make all subscribe options work
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAPIFeedLoadSuccessEvent(APIFeedLoadSuccessEvent event) {
+    public void APIFeedLoadSuccessEvent(APIFeedLoadSuccessEvent event) {
         // TODO : Feed success subscribe
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAPIFeedLoadFailEvent(APIFeedLoadFailEvent event) {
+    public void APIFeedLoadFailEvent(APIFeedLoadFailEvent event) {
         // TODO : Feed fail subscribe
     }
 
 
     // TODO: RESTApi.loadFeed(WHAT IS HERE SHOULD BE?
-    @Override
-    public void onOperationLoadRequested() {
-        loadFeed();
-    }
+//    @Override
+//    public void onOperationLoadRequested() {
+//        loadFeed();
+//    }
 
     //TODO: Used?
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onFeedLoadRequested() {
+        loadFeed();
     }
 }

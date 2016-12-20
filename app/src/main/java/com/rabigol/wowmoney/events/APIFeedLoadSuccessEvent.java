@@ -2,7 +2,10 @@ package com.rabigol.wowmoney.events;
 
 import android.util.Log;
 
+import com.rabigol.wowmoney.App;
 import com.rabigol.wowmoney.models.FeedItem;
+import com.rabigol.wowmoney.models.OperationItem;
+import com.rabigol.wowmoney.utils.FakeOperations;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,23 +18,13 @@ import java.util.ArrayList;
  */
 
 public class APIFeedLoadSuccessEvent {
-    private ArrayList<FeedItem> items;
+    private ArrayList<OperationItem> operations;
 
-    public APIFeedLoadSuccessEvent(JSONArray jsonArray){
-        System.out.println(jsonArray);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject1 = null;
-            //TODO: parse to array
-            try {
-                jsonObject1 = jsonArray.getJSONObject(i);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Log.i("jsonObject1", jsonObject1.toString());
-        }
+    public APIFeedLoadSuccessEvent(ArrayList<OperationItem> operations){
+        this.operations = operations;
     }
 
-    public ArrayList<FeedItem> getItems(){
-        return items;
+    public ArrayList<OperationItem> getOperations() {
+        return operations;
     }
 }

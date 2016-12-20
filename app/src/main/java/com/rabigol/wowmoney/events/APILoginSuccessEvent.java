@@ -15,7 +15,18 @@ public class APILoginSuccessEvent extends SuccessEvent {
             int userId = json.getInt("id");
             String userEmail = json.getString("email");
             App.getInstance().setAppLoggedUser(userId, userEmail);
-            Log.i("APILoginSuc! userId = ", ""+App.getInstance().getAppLoggedUserId());
+            Log.i("APILoginSuc! userId = ", "" + App.getInstance().getAppLoggedUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public APILoginSuccessEvent(JSONObject json, String currency) {
+        super(json);
+        try {
+            int sum = json.getInt("sum");
+            App.getInstance().setBalance(currency, sum);
+            Log.i("App " + currency + " = ", "" + sum);
         } catch (JSONException e) {
             e.printStackTrace();
         }

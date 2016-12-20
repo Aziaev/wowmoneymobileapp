@@ -12,15 +12,12 @@ import java.util.List;
 public class FakeOperations {
     private static ArrayList<OperationItem> operationItems = new ArrayList<>();
 
-    // Заглушки из с названиями согласно базе данных.
     public static List<String> operationTypes = new ArrayList<>();
     public static List<String> operationCategories = new ArrayList<>();
     public static List<String> accounts = new ArrayList<>();
     public static List<String> currencies = new ArrayList<>();
 
     private static FakeOperations instance;
-
-    // constructor(long id, int timestamp, String operationType, String operationCategory, String operationPic, String account, long value, String currency, String description)
 
     private FakeOperations() {
         operationTypes.add(0, "Income");
@@ -44,31 +41,14 @@ public class FakeOperations {
         operationCategories.add(6, "Health");
         operationCategories.add(7, "Telecommunication");
         operationCategories.add(8, "Other outcome");
-
-
-        for (int i = 0; i < 20; i++) {
-            Log.i("TAG", "operation number " + i + " created");
-            if (i % 3 == 0) {
-                operationItems.add(new OperationItem((int) ((System.currentTimeMillis() / 1000) - i * 85000), operationTypes.get(2), operationCategories.get(0), "somepic" + i, accounts.get(2), 100 + i * 1100, currencies.get(0), "blablalbalbalbals"));
-            } else if (i % 2 == 0) {
-                operationItems.add(new OperationItem((int) ((System.currentTimeMillis() / 1000) - i * 50000), operationTypes.get(1), operationCategories.get(3), "somepic" + i, accounts.get(1), -1 * i * 550, currencies.get(1), "y0y0y0y0y0y0yxyu"));
-            } else {
-                operationItems.add(new OperationItem((int) ((System.currentTimeMillis() / 1000) - i * 70000), operationTypes.get(0), operationCategories.get(0), "somepic" + i, accounts.get(0), 1 * i * 2010, currencies.get(2), "ыыыы хочу ывудывьавыу"));
-            }
-        }
     }
 
     public ArrayList<OperationItem> getOperationItems() {
         return operationItems;
     }
 
-    public void addOperationItemById() {
-
-    }
-
     public static void addOperation(OperationItem operationItem) {
         operationItems.add(operationItem);
-//        notifyDataSetChanged();
     }
 
     public static FakeOperations getInstance() {
@@ -112,5 +92,9 @@ public class FakeOperations {
 
     public static List<String> getOperationCurrencies(){
         return currencies;
+    }
+
+    public static void clearArray() {
+        operationItems.clear();
     }
 }

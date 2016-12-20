@@ -61,11 +61,7 @@ public class App extends Application {
     }
 
     public int getAppLoggedUserId() {
-//        if (state == APP_STATE_LOGGED) {
-            Log.i("this.appStateLogg...Id", "" + this.appStateLoggedUserId);
-            Log.i("appStateLoggedUserId", "" + App.getInstance().appStateLoggedUserId);
             return App.getInstance().appStateLoggedUserId;
-//        } else return 0;
     }
 
     public String getAppLoggedUserEmail() {
@@ -74,5 +70,16 @@ public class App extends Application {
 //            Log.i("App.getEmailmeth", App.getInstance().appStateLoggedUserEmail);
             return App.getInstance().appStateLoggedUserEmail;
 //        } else return "Not logged. Check";
+    }
+
+    public void setBalance(String currency, int sum){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(currency, sum);
+        Log.i("Setted " + currency, " " + sum);
+        editor.apply();
+    }
+
+    public int getBalance(String currency) {
+        return preferences.getInt(currency, 0);
     }
 }

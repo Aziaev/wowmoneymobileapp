@@ -41,7 +41,6 @@ public class OperationImageHelper {
                 result = R.drawable.op_telecommunication;
                 break;
         }
-        Log.i("giveImage", " " + result);
         return result;
     }
 }

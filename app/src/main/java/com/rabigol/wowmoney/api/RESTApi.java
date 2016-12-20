@@ -28,9 +28,12 @@ import com.rabigol.wowmoney.events.APILoginSuccessEvent;
 import com.rabigol.wowmoney.events.APIOperationsLoadSuccessEvent;
 import com.rabigol.wowmoney.events.APIRegisterFailEvent;
 import com.rabigol.wowmoney.events.APIRegisterSuccessEvent;
+import com.rabigol.wowmoney.models.OperationItem;
 import com.rabigol.wowmoney.utils.FakeOperations;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 public class RESTApi {
     //    private final static String API_URL = "http://10.16.16.89:9090/api/"; //office ip
@@ -118,7 +121,7 @@ public class RESTApi {
     }
 
     public void loadItems(int userId) {
-        String url = API_URL + "operations/" + userId;
+        final String url = API_URL + "operations/" + userId;
         final JSONArray jsonArray = new JSONArray();
 
         mRequestQueue.add(new JsonArrayRequest(
@@ -128,7 +131,29 @@ public class RESTApi {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        EventBus.getDefault().post(new APIFeedLoadSuccessEvent(response)); // response from server
+                        FakeOperations.clearArray();
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject jsonObject1 = null;
+                            //TODO: parse to array
+                            try {
+                                jsonObject1 = response.getJSONObject(i);
+                                OperationItem operationItem = new OperationItem(
+                                        App.getInstance().getAppLoggedUserId()
+                                        , jsonObject1.getInt("id")
+                                        , jsonObject1.getString("operation_type")
+                                        , jsonObject1.getString("operation_category")
+                                        , jsonObject1.getString("account")
+                                        , jsonObject1.getLong("value")
+                                        , jsonObject1.getString("currency")
+                                        , jsonObject1.getString("description")
+                                        , jsonObject1.getInt("timestamp")
+                                );
+                                FakeOperations.addOperation(operationItem);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        EventBus.getDefault().post(new APIFeedLoadSuccessEvent(FakeOperations.getInstance().getOperationItems())); // response from server
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -140,6 +165,58 @@ public class RESTApi {
         ));
     }
 
+    public int getBalance(int appLoggedUserId) {
+        //TODO: change hardcoded exchange rates!!!
+        int rubToUsdExchangeRate = 62;
+        int rubToEurExchangeRate = 66;
+        RESTApi.getInstance().getBalance(appLoggedUserId, "RUB");
+        RESTApi.getInstance().getBalance(appLoggedUserId, "USD");
+        RESTApi.getInstance().getBalance(appLoggedUserId, "EUR");
+
+        int result = App.getInstance().getBalance("RUB") + App.getInstance().getBalance("USD") * rubToUsdExchangeRate + App.getInstance().getBalance("EUR") * rubToEurExchangeRate;
+        Log.i("Totalbalance = ", "" + result);
+        return result;
+    }
+
+    private void getBalance(int appLoggedUserId, String currency) {
+        final String currency1 = currency;
+        try {
+            String url = API_URL + "operations/balance/total";
+            final JSONObject jsonObject = new JSONObject();
+            jsonObject.put("userId", appLoggedUserId);
+            jsonObject.put("currency", currency);
+
+
+            mRequestQueue.add(new JsonObjectRequest(
+                    Request.Method.POST,
+                    url,
+                    jsonObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            EventBus.getDefault().post(new APILoginSuccessEvent(response, currency1));
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //TODO: Сделать обработку ошибок
+                    EventBus.getDefault().post(new APILoginFailEvent(error));
+                    Log.i("REST LOGIN ERROR", error.toString());
+                    if (error instanceof TimeoutError) {
+                        //TODO: make timeouterror in failevent or anywhere else
+                    } else if (error instanceof ServerError) {
+                        //TODO: make servererror in failevent or anywhere else
+                    } else {
+                        //TODO: error toasts
+                    }
+                }
+            }
+            ));
+
+        } catch (JSONException j) {
+            EventBus.getDefault().post(new APILoginFailEvent());
+        }
+    }
 
     public static void restore(String login) {
         new Handler().postDelayed(new Runnable() {
@@ -155,7 +232,10 @@ public class RESTApi {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                EventBus.getDefault().post(new APIOperationsLoadSuccessEvent(FakeOperations.getInstance().getOperationItems()));
+                Log.i("RESTApi load Feed()", " is running");
+                RESTApi.getInstance().loadItems(App.getInstance().getAppLoggedUserId());
+                RESTApi.getInstance().getBalance(App.getInstance().getAppLoggedUserId());
+//                EventBus.getDefault().post(new APIFeedLoadSuccessEvent(FakeOperations.getInstance().getOperationItems()));
             }
         }, 1000);
     }

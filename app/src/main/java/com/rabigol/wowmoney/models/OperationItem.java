@@ -78,7 +78,20 @@ public class OperationItem {
         uniqueOperationId++;
         this.ownerId = 1;
         this.id = uniqueOperationId;
-        this.timestamp = (int)(System.currentTimeMillis() / 1000);
+        this.timestamp = (int) (System.currentTimeMillis() / 1000);
+        this.operationType = operationType;
+        this.operationCategory = operationCategory;
+        this.account = account;
+        this.value = value;
+        this.currency = currency;
+        this.description = description;
+    }
+
+    //Constructor for loadFeed
+    public OperationItem(int ownerId, int operationId, String operationType, String operationCategory, String account, long value, String currency, String description, int timestamp) {
+        this.ownerId = ownerId;
+        this.id = operationId;
+        this.timestamp = timestamp;
         this.operationType = operationType;
         this.operationCategory = operationCategory;
         this.account = account;
