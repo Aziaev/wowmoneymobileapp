@@ -75,7 +75,6 @@ public class App extends Application {
     public void setBalance(String currency, int sum){
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(currency, sum);
-        Log.i("Setted " + currency, " " + sum);
         editor.apply();
     }
 

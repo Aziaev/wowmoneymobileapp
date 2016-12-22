@@ -98,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements
 
                         Double aDouble = Double.parseDouble(value.getText().toString());
                         aDouble = aDouble * 100;
+                        if (aDouble > 0 && operationTypesSpinner.getSelectedItem().toString().equals("Outcome")) {
+                            aDouble = aDouble * -1;
+                        } else if (!operationTypesSpinner.getSelectedItem().toString().equals("Outcome")){
+                            aDouble = Math.abs(aDouble);
+                        }
                         final Long operationValue = aDouble.longValue();
                         int timestamp = (int) (System.currentTimeMillis() / 1000);
 

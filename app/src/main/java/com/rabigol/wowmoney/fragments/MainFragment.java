@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -50,6 +51,8 @@ public class MainFragment extends EventBusFragment implements
     private OperationItemsAdapter adapter = new OperationItemsAdapter(this);
     private OnFragmentInteractionListener mListener;
     private SwipeRefreshLayout swipeRefresh;
+    Double totalBalance;
+    TextView listHeaderViewBalanceText;
 
     public MainFragment() {
         //Required empty public constructor
@@ -64,13 +67,13 @@ public class MainFragment extends EventBusFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
 
         View listHeaderView = inflater.inflate(R.layout.operations_listview_header, null, false);
-        TextView listHeaderViewBalanceText = (TextView) rootView.findViewById(R.id.listView_header_balance);
-        listHeaderViewBalanceText.setText("99");
+        listHeaderViewBalanceText = (TextView) listHeaderView.findViewById(R.id.listView_header_balance);
+        totalBalance = ((double) App.getInstance().getBalance("RUB") + App.getInstance().getBalance("USD") * 62 + App.getInstance().getBalance("EUR") * 66) / 100;
+        listHeaderViewBalanceText.setText(totalBalance + " RUB");
 
         listView.addHeaderView(listHeaderView);
 
@@ -164,7 +167,13 @@ public class MainFragment extends EventBusFragment implements
                         //Conver inputed double to long
                         Double aDouble = Double.parseDouble(value.getText().toString());
                         aDouble = aDouble * 100;
+                        if (aDouble > 0 && operationTypesSpinner.getSelectedItem().toString().equals("Outcome")) {
+                            aDouble = aDouble * -1;
+                        } else if (!operationTypesSpinner.getSelectedItem().toString().equals("Outcome")){
+                            aDouble = Math.abs(aDouble);
+                        }
                         final Long operationValue = aDouble.longValue();
+
 //                        operationItemEditAndView.setOperationType(operationTypesSpinner.getSelectedItem().toString());
 //                        operationItemEditAndView.setOperationCategory(operationCategoriesSpinner.getSelectedItem().toString());
 //                        operationItemEditAndView.setAccount(operationAccountsSpinner.getSelectedItem().toString());
@@ -202,6 +211,7 @@ public class MainFragment extends EventBusFragment implements
             @Override
             public void onRefresh() {
                 loadData();
+                totalBalance = ((double) RESTApi.getInstance().getBalance(App.getInstance().getAppLoggedUserId())) / 100;
             }
         });
 
@@ -277,11 +287,20 @@ public class MainFragment extends EventBusFragment implements
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAPIFeedLoadSuccessEvent(APIFeedLoadSuccessEvent event) {
         adapter.setOperations(event.getOperations());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                totalBalance = ((double) App.getInstance().getBalance("RUB") + App.getInstance().getBalance("USD") * 62 + App.getInstance().getBalance("EUR") * 66) / 100;
+                listHeaderViewBalanceText.setText(totalBalance + " RUB");
+            }
+        }, 2000);
+
         swipeRefresh.setRefreshing(false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAPIFeedLoadFailEvent(APIFeedLoadFailEvent event) {
         swipeRefresh.setRefreshing(false);
+
     }
 }

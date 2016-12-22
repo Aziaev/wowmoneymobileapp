@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rabigol.wowmoney.App;
 import com.rabigol.wowmoney.R;
+import com.rabigol.wowmoney.api.RESTApi;
 import com.rabigol.wowmoney.models.OperationItem;
 import com.rabigol.wowmoney.utils.Helper;
 
@@ -97,7 +99,11 @@ public class OperationItemsAdapter extends BaseAdapter {
         Double valueDouble = longValue.doubleValue();
         Double value = valueDouble/100;
 
+//        int result = App.getInstance().getBalance("RUB") + App.getInstance().getBalance("USD") * 62 + App.getInstance().getBalance("EUR") * 66;
+//        Double totalBalance = ((double) result) / 100;
+
 //        holder.idTextView.setText("Operation ID: " + Long.toString(operation.getId()));
+//        holder.balance.setText(totalBalance + " RUB");
         holder.dateTextView.setText("Date: " + Helper.formatTimestampToDateShort(operation.getTimestamp()));
         holder.operationCategoryTextView.setText("Category: " + operation.getOperationCategory());
         holder.operationTypeTextView.setText("Type: " + operation.getOperationType());
@@ -120,6 +126,7 @@ public class OperationItemsAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
+//        public TextView balance;
         public TextView idTextView;
         public TextView dateTextView;
         public TextView operationTypeTextView;

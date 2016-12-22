@@ -11,7 +11,7 @@ import com.rabigol.wowmoney.R;
 public class OperationImageHelper {
     public static int giveImage(String operationCategory){
         int result = 99;
-        Log.i("giveImage", operationCategory);
+//        Log.i("giveImage", operationCategory);
         switch(operationCategory) {
             case "Salary":
                 result = R.drawable.op_salary;

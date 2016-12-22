@@ -36,8 +36,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 public class RESTApi {
-    //    private final static String API_URL = "http://10.16.16.89:9090/api/"; //office ip
-    private final static String API_URL = "http://10.1.30.37:9090/api/"; //home ip
+        private final static String API_URL = "http://10.16.16.89:9090/api/"; //office ip
+//    private final static String API_URL = "http://10.1.30.37:9090/api/"; //home ip
     //    private final static String API_URL = "http://localhost:9090/api/";
     private static RESTApi mInstance;
     private RequestQueue mRequestQueue;
@@ -163,6 +163,7 @@ public class RESTApi {
             }
         }
         ));
+        getBalance(userId);
     }
 
     public int getBalance(int appLoggedUserId) {
@@ -194,7 +195,13 @@ public class RESTApi {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            EventBus.getDefault().post(new APILoginSuccessEvent(response, currency1));
+                            try {
+                                int sum = response.getInt("sum");
+                                App.getInstance().setBalance(currency1, sum);
+                                Log.i("App " + currency1 + " = ", "" + sum);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }, new Response.ErrorListener() {
                 @Override

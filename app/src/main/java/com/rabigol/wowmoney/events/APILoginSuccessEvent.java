@@ -20,15 +20,4 @@ public class APILoginSuccessEvent extends SuccessEvent {
             e.printStackTrace();
         }
     }
-
-    public APILoginSuccessEvent(JSONObject json, String currency) {
-        super(json);
-        try {
-            int sum = json.getInt("sum");
-            App.getInstance().setBalance(currency, sum);
-            Log.i("App " + currency + " = ", "" + sum);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 }
